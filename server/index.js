@@ -1,5 +1,6 @@
 import express from "express";
 import Stripe from "stripe";
+// Creating express server
 
 const app = express();
 const port = 3000; //add your port here
@@ -12,14 +13,20 @@ const secretKey =
 //Confirm the API version from your stripe dashboard
 const stripe = Stripe(secretKey, { apiVersion: "2023-10-16" });
 
+//
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
 
+/**
+ * Post method to create customer and setup intent
+ * @return clientSecret,
+ */
+
 app.post("/create-payment-intent", async (req, res) => {
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: 1099, //lowest denomination of particular currency
+      amount: 1099, //by default
       currency: "usd",
       payment_method_types: ["card"], //by default
     });

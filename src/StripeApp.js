@@ -1,14 +1,10 @@
 //import liraries
 import React, { Component, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button, Alert } from "react-native";
-import {
-  CardField,
-  useConfirmPayment,
-  useStripe,
-} from "@stripe/stripe-react-native";
+import { CardField, useConfirmPayment } from "@stripe/stripe-react-native";
 //ADD localhost address of your server
 const API_URL = "http://192.168.0.220:3000";
-//http://192.168.0.220:3000
+
 const StripeApp = (props) => {
   const [email, setEmail] = useState();
   const [cardDetails, setCardDetails] = useState();
@@ -20,10 +16,6 @@ const StripeApp = (props) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        paymentMethodType: "card",
-        currency: "usd",
-      }),
     });
     const { clientSecret, error } = await response.json();
     return { clientSecret, error };
@@ -49,17 +41,14 @@ const StripeApp = (props) => {
       } else {
         const { paymentIntent, error } = await confirmPayment(clientSecret, {
           paymentMethodType: "Card",
-
           billingDetails: billingDetails,
         });
 
-        console.log("Payment error ", error);
-        console.log("Payment inent ", paymentIntent);
-
         if (error) {
-          alert(`Payment Confirmation Error ${error.message}`);
+          Alert.alert("Error", `Payment Confirmation Error ${error.message}`);
+          console.log("Payment error ", error);
         } else if (paymentIntent) {
-          alert("Payment Successful");
+          Alert.alert("Success", `Payment Successful: ${paymentIntent.id}`);
           console.log("Payment successful ", paymentIntent);
         }
       }
@@ -80,7 +69,7 @@ const StripeApp = (props) => {
         style={styles.input}
       />
       <CardField
-        postalCodeEnabled={false}
+        postalCodeEnabled={true}
         placeholder={{
           number: "4242 4242 4242 4242",
         }}
