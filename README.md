@@ -30,6 +30,8 @@ Testing Data: Any data like cvv and exp data 04/24
 
 4242 4242 4242 4242 : The card payment succeeds and doesn’t require authentication.
 4000 0025 0000 3155 : The card payment requires authentication.
+4000 0000 0000 3220 : The card payment requires authentication.
+
 6205 500 0000 0000 0004: The UnionPay card has a variable length of 13-19 digits
 
 4000 0000 0000 9995 : The card is declined with a decline code like insufficient_funds.
